@@ -16,14 +16,14 @@ type Knapsack struct {
 }
 
 func main() {
-	repository, err := repo.New("data/1")
+	repository, err := repo.New("data/test1")
 	if err != nil {
 		panic(err)
 	}
 	startTime := time.Now()
 	characteristicVectors := createBinaryMatrix(repository.Size)
 	// building bags of items
-	knapsacks := make([]Knapsack, int(math.Pow(float64(repository.Size), 2)))
+	knapsacks := make([]Knapsack, int(math.Pow(2, float64(repository.Size))))
 	for i, iv := range characteristicVectors {
 		knapsack := Knapsack{}
 		for i, jv := range iv {
@@ -38,7 +38,7 @@ func main() {
 	}
 	// sorting from the biggest to the smallest
 	sort.Slice(knapsacks, func(i, j int) bool {
-		return knapsacks[i].TotalWeight > knapsacks[j].TotalWeight
+		return knapsacks[i].TotalValue > knapsacks[j].TotalValue
 	})
 
 	// searching for the perfect knapsack
@@ -60,8 +60,10 @@ func main() {
 }
 
 func createBinaryMatrix(size int) [][]int {
-	matrix := make([][]int, int(math.Pow(float64(size), 2)))
-	for i := 0.; i < math.Pow(float64(size), 2); i++ {
+	dimension := math.Pow(2, float64(size))
+	//dimension := int(math.Pow(float64(size), 2))
+	matrix := make([][]int, int(dimension))
+	for i := 0.; i < dimension; i++ {
 		vector := make([]int, size)
 		temp := i
 		for j := size - 1; j >= 0; j-- {
