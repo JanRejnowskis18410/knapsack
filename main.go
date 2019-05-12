@@ -20,13 +20,31 @@ func main() {
 		panic(err)
 	}
 	startTime := time.Now()
-	totalKnapsacks := math.Pow(2, float64(repo.Size))
-	maxKnapsack := Knapsack{}
+	perfectKnapsack := getPerfectKnapsack(repo.Items, repo.Capacity)
+	duration := time.Since(startTime)
+	fmt.Println("Time took:", duration)
+	fmt.Println("Knapsack's capacity:", repo.Capacity)
+	fmt.Println("Characteristic vector:", perfectKnapsack.CharacteristicVector)
+	fmt.Println("Total value:", perfectKnapsack.TotalValue)
+	fmt.Println("Total weight:", perfectKnapsack.TotalWeight)
+	fmt.Println("Items:")
+	for _, item := range perfectKnapsack.Items {
+		fmt.Println("id:", item.Id, "weight:", item.Weight, "value:", item.Value)
+	}
+}
+
+// getPerfectKnapsack finds a perfect knapsack from all possible solutions using brute force method.
+// Perfect knapsack is the one that has the biggest total value of items and has weight
+// lower or equal to the capacity of a required knapsack.
+// getPerfectKnapsack finds perfect knapsack on the fly, without producing any helper matrices
+func getPerfectKnapsack(items []repository.Item, knapsackCapacity int) (perfectKnapsack Knapsack) {
+	totalKnapsacks := math.Pow(2, float64(len(items)))
+	perfectKnapsack = Knapsack{}
 	for i := 0.; i < totalKnapsacks; i++ {
 		// create vector representation
-		vector := make([]int, repo.Size)
+		vector := make([]int, len(items))
 		temp := i
-		for j := repo.Size - 1; j >= 0; j-- {
+		for j := len(items) - 1; j >= 0; j-- {
 			vector[j] = int(math.Mod(temp, 2))
 			temp = math.Floor(temp / 2)
 		}
@@ -34,26 +52,16 @@ func main() {
 		currentKnapsack := Knapsack{}
 		for i, v := range vector {
 			if v == 1 {
-				currentKnapsack.TotalValue += repo.Items[i].Value
-				currentKnapsack.TotalWeight += repo.Items[i].Weight
-				currentKnapsack.Items = append(currentKnapsack.Items, repo.Items[i])
+				currentKnapsack.TotalValue += items[i].Value
+				currentKnapsack.TotalWeight += items[i].Weight
+				currentKnapsack.Items = append(currentKnapsack.Items, items[i])
 				currentKnapsack.CharacteristicVector = vector
 			}
 		}
 		// choosing max knapsack on the fly
-		if maxKnapsack.TotalValue < currentKnapsack.TotalValue && currentKnapsack.TotalWeight <= repo.Capacity {
-			maxKnapsack = currentKnapsack
+		if perfectKnapsack.TotalValue < currentKnapsack.TotalValue && currentKnapsack.TotalWeight <= knapsackCapacity {
+			perfectKnapsack = currentKnapsack
 		}
 	}
-	// perfect knapsack output
-	fmt.Println("Knapsack's capacity:", repo.Capacity)
-	fmt.Println("Characteristic vector:", maxKnapsack.CharacteristicVector)
-	fmt.Println("Total value:", maxKnapsack.TotalValue)
-	fmt.Println("Total weight:", maxKnapsack.TotalWeight)
-	fmt.Println("Items:")
-	for _, item := range maxKnapsack.Items {
-		fmt.Println("id:", item.Id, "weight:", item.Weight, "value:", item.Value)
-	}
-	duration := time.Since(startTime)
-	fmt.Println("Time took:", duration)
+	return
 }
