@@ -21,9 +21,9 @@ func Test_getPerfectKnapsack(t *testing.T) {
 	if perfectKnapsackCase1.TotalValue != 45 {
 		t.Errorf("getPerfectKnapsack(...).TotalValue = %d; want 45", perfectKnapsackCase1.TotalValue)
 	}
-	charVectorCase1 := []int{0, 1, 0, 1}
+	charVectorCase1 := []bool{false, true, false, true}
 	if !reflect.DeepEqual(perfectKnapsackCase1.CharacteristicVector, charVectorCase1) {
-		t.Errorf("getPerfectKnapsack(...).CharacteristicVector = %d; want {0, 1, 0, 1}", perfectKnapsackCase1.CharacteristicVector)
+		t.Errorf("getPerfectKnapsack(...).CharacteristicVector = %t; want {0, 1, 0, 1}", perfectKnapsackCase1.CharacteristicVector)
 	}
 
 	itemsCase2 := []repository.Item{
@@ -40,8 +40,8 @@ func Test_getPerfectKnapsack(t *testing.T) {
 	if perfectKnapsackCase2.TotalValue != 50 {
 		t.Errorf("getPerfectKnapsack(...).TotalValue = %d; want 45", perfectKnapsackCase2.TotalValue)
 	}
-	charVectorCase2 := []int{1, 0, 1, 1}
+	charVectorCase2 := []bool{true, false, true, true}
 	if !reflect.DeepEqual(perfectKnapsackCase2.CharacteristicVector, charVectorCase2) {
-		t.Errorf("getPerfectKnapsack(...).CharacteristicVector = %d; want {1, 0, 1, 1}", perfectKnapsackCase2.CharacteristicVector)
+		t.Errorf("getPerfectKnapsack(...).CharacteristicVector = %t; want {1, 0, 1, 1}", perfectKnapsackCase2.CharacteristicVector)
 	}
 }

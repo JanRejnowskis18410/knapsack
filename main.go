@@ -11,11 +11,11 @@ type Knapsack struct {
 	TotalValue           int
 	TotalWeight          int
 	Items                []repository.Item
-	CharacteristicVector []int
+	CharacteristicVector []bool
 }
 
 func main() {
-	repo, err := repository.New("data/test2")
+	repo, err := repository.New("data/test3")
 	if err != nil {
 		panic(err)
 	}
@@ -42,16 +42,16 @@ func getPerfectKnapsack(items []repository.Item, knapsackCapacity int) (perfectK
 	perfectKnapsack = Knapsack{}
 	for i := 0.; i < totalKnapsacks; i++ {
 		// create vector representation
-		vector := make([]int, len(items))
+		vector := make([]bool, len(items))
 		temp := i
 		for j := len(items) - 1; j >= 0; j-- {
-			vector[j] = int(math.Mod(temp, 2))
+			vector[j] = math.Mod(temp, 2) == 1
 			temp = math.Floor(temp / 2)
 		}
 		// building knapsack with items
 		currentKnapsack := Knapsack{}
 		for i, v := range vector {
-			if v == 1 {
+			if v {
 				currentKnapsack.TotalValue += items[i].Value
 				currentKnapsack.TotalWeight += items[i].Weight
 				currentKnapsack.Items = append(currentKnapsack.Items, items[i])
