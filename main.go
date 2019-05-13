@@ -15,6 +15,16 @@ type Knapsack struct {
 	CharacteristicVector string
 }
 
+func (knapsack *Knapsack) String() string {
+	return fmt.Sprintf(
+		"Characteristic vector: %s \n"+
+			"Total value: %d \n"+
+			"Total weight: %d",
+		knapsack.CharacteristicVector,
+		knapsack.TotalValue,
+		knapsack.TotalWeight)
+}
+
 func main() {
 	repo, err := repository.New("data/test3")
 	if err != nil {
@@ -25,9 +35,7 @@ func main() {
 	duration := time.Since(startTime)
 	fmt.Println("Time took:", duration)
 	fmt.Println("Knapsack's capacity:", repo.Capacity)
-	fmt.Println("Characteristic vector:", perfectKnapsack.CharacteristicVector)
-	fmt.Println("Total value:", perfectKnapsack.TotalValue)
-	fmt.Println("Total weight:", perfectKnapsack.TotalWeight)
+	fmt.Println(perfectKnapsack.String())
 	fmt.Println("Items:")
 	for i, v := range perfectKnapsack.CharacteristicVector {
 		// 49 represents 1, 48 represents 0
