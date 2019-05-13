@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/sidletsky/knapsack/repository"
 	"math"
@@ -26,7 +27,9 @@ func (knapsack *Knapsack) String() string {
 }
 
 func main() {
-	repo, err := repository.New("data/test3")
+	file := flag.String("file", "data/test3", "a string")
+	fmt.Println("File:", *file)
+	repo, err := repository.New(*file)
 	if err != nil {
 		panic(err)
 	}
