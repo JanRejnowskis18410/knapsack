@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/sidletsky/knapsack/repository"
 	"math"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -11,11 +13,11 @@ type Knapsack struct {
 	TotalValue           int
 	TotalWeight          int
 	Items                []repository.Item
-	CharacteristicVector []bool
+	CharacteristicVector string
 }
 
 func main() {
-	repo, err := repository.New("data/test3")
+	repo, err := repository.New("data/7")
 	if err != nil {
 		panic(err)
 	}
@@ -38,20 +40,22 @@ func main() {
 // lower or equal to the capacity of a required knapsack.
 // getPerfectKnapsack finds perfect knapsack on the fly, without producing any helper matrices
 func getPerfectKnapsack(items []repository.Item, knapsackCapacity int) (perfectKnapsack Knapsack) {
-	totalKnapsacks := math.Pow(2, float64(len(items)))
+	itemsSize := len(items)
+	totalKnapsacks := int(math.Pow(2, float64(itemsSize)))
 	perfectKnapsack = Knapsack{}
-	for i := 0.; i < totalKnapsacks; i++ {
+BinaryIterator:
+	for i := 0; i < totalKnapsacks; i++ {
 		// create vector representation
-		vector := make([]bool, len(items))
-		temp := i
-		for j := len(items) - 1; j >= 0; j-- {
-			vector[j] = math.Mod(temp, 2) == 1
-			temp = math.Floor(temp / 2)
-		}
+		base2 := strconv.FormatInt(int64(i), 2)
+		vector := strings.Repeat("0", itemsSize-len(base2)) + base2
 		// building knapsack with items
 		currentKnapsack := Knapsack{}
 		for i, v := range vector {
-			if v {
+			if currentKnapsack.TotalWeight > knapsackCapacity {
+				continue BinaryIterator
+			}
+			// 49 represents 1, 48 represents 0
+			if v == 49 {
 				currentKnapsack.TotalValue += items[i].Value
 				currentKnapsack.TotalWeight += items[i].Weight
 				currentKnapsack.Items = append(currentKnapsack.Items, items[i])
@@ -59,7 +63,7 @@ func getPerfectKnapsack(items []repository.Item, knapsackCapacity int) (perfectK
 			}
 		}
 		// choosing max knapsack on the fly
-		if perfectKnapsack.TotalValue < currentKnapsack.TotalValue && currentKnapsack.TotalWeight <= knapsackCapacity {
+		if knapsackCapacity > currentKnapsack.TotalWeight && perfectKnapsack.TotalValue < currentKnapsack.TotalValue {
 			perfectKnapsack = currentKnapsack
 		}
 	}

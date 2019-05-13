@@ -13,17 +13,17 @@ func Test_getPerfectKnapsack(t *testing.T) {
 		{Id: 3, Value: 20, Weight: 25},
 		{Id: 4, Value: 30, Weight: 30},
 	}
-	knapsackcapacityCase1 := 40
-	perfectKnapsackCase1 := getPerfectKnapsack(itemsCase1, knapsackcapacityCase1)
+	knapsackCapacityCase1 := 40
+	perfectKnapsackCase1 := getPerfectKnapsack(itemsCase1, knapsackCapacityCase1)
 	if perfectKnapsackCase1.TotalWeight != 35 {
 		t.Errorf("getPerfectKnapsack(...).TotalWeight = %d; want 35", perfectKnapsackCase1.TotalWeight)
 	}
 	if perfectKnapsackCase1.TotalValue != 45 {
 		t.Errorf("getPerfectKnapsack(...).TotalValue = %d; want 45", perfectKnapsackCase1.TotalValue)
 	}
-	charVectorCase1 := []bool{false, true, false, true}
+	charVectorCase1 := "0101"
 	if !reflect.DeepEqual(perfectKnapsackCase1.CharacteristicVector, charVectorCase1) {
-		t.Errorf("getPerfectKnapsack(...).CharacteristicVector = %t; want {0, 1, 0, 1}", perfectKnapsackCase1.CharacteristicVector)
+		t.Errorf("getPerfectKnapsack(...).CharacteristicVector = %s; want {0, 1, 0, 1}", perfectKnapsackCase1.CharacteristicVector)
 	}
 
 	itemsCase2 := []repository.Item{
@@ -40,8 +40,8 @@ func Test_getPerfectKnapsack(t *testing.T) {
 	if perfectKnapsackCase2.TotalValue != 50 {
 		t.Errorf("getPerfectKnapsack(...).TotalValue = %d; want 45", perfectKnapsackCase2.TotalValue)
 	}
-	charVectorCase2 := []bool{true, false, true, true}
+	charVectorCase2 := "1011"
 	if !reflect.DeepEqual(perfectKnapsackCase2.CharacteristicVector, charVectorCase2) {
-		t.Errorf("getPerfectKnapsack(...).CharacteristicVector = %t; want {1, 0, 1, 1}", perfectKnapsackCase2.CharacteristicVector)
+		t.Errorf("getPerfectKnapsack(...).CharacteristicVector = %s; want {1, 0, 1, 1}", perfectKnapsackCase2.CharacteristicVector)
 	}
 }
