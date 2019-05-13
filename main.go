@@ -53,17 +53,17 @@ BinaryIterator:
 		// building knapsack with items
 		currentKnapsack := Knapsack{CharacteristicVector: vector}
 		for i, v := range vector {
-			if currentKnapsack.TotalWeight > knapsackCapacity {
-				continue BinaryIterator
-			}
 			// 49 represents 1, 48 represents 0
 			if v == 49 {
 				currentKnapsack.TotalValue += items[i].Value
 				currentKnapsack.TotalWeight += items[i].Weight
 			}
+			if currentKnapsack.TotalWeight > knapsackCapacity {
+				continue BinaryIterator
+			}
 		}
 		// choosing max knapsack on the fly
-		if knapsackCapacity > currentKnapsack.TotalWeight && perfectKnapsack.TotalValue < currentKnapsack.TotalValue {
+		if perfectKnapsack.TotalValue < currentKnapsack.TotalValue {
 			perfectKnapsack = currentKnapsack
 		}
 	}
