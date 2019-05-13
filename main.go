@@ -12,12 +12,11 @@ import (
 type Knapsack struct {
 	TotalValue           int
 	TotalWeight          int
-	Items                []repository.Item
 	CharacteristicVector string
 }
 
 func main() {
-	repo, err := repository.New("data/7")
+	repo, err := repository.New("data/test3")
 	if err != nil {
 		panic(err)
 	}
@@ -30,8 +29,11 @@ func main() {
 	fmt.Println("Total value:", perfectKnapsack.TotalValue)
 	fmt.Println("Total weight:", perfectKnapsack.TotalWeight)
 	fmt.Println("Items:")
-	for _, item := range perfectKnapsack.Items {
-		fmt.Println("id:", item.Id, "weight:", item.Weight, "value:", item.Value)
+	for i, v := range perfectKnapsack.CharacteristicVector {
+		// 49 represents 1, 48 represents 0
+		if v == 49 {
+			fmt.Println("id:", repo.Items[i].Id, "weight:", repo.Items[i].Weight, "value:", repo.Items[i].Value)
+		}
 	}
 }
 
@@ -49,7 +51,7 @@ BinaryIterator:
 		base2 := strconv.FormatInt(int64(i), 2)
 		vector := strings.Repeat("0", itemsSize-len(base2)) + base2
 		// building knapsack with items
-		currentKnapsack := Knapsack{}
+		currentKnapsack := Knapsack{CharacteristicVector: vector}
 		for i, v := range vector {
 			if currentKnapsack.TotalWeight > knapsackCapacity {
 				continue BinaryIterator
@@ -58,8 +60,6 @@ BinaryIterator:
 			if v == 49 {
 				currentKnapsack.TotalValue += items[i].Value
 				currentKnapsack.TotalWeight += items[i].Weight
-				currentKnapsack.Items = append(currentKnapsack.Items, items[i])
-				currentKnapsack.CharacteristicVector = vector
 			}
 		}
 		// choosing max knapsack on the fly
