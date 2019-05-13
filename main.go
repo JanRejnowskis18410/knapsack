@@ -58,8 +58,8 @@ BinaryIterator:
 		// create vector representation
 		base2 := strconv.FormatInt(int64(i), 2)
 		vector := strings.Repeat("0", itemsSize-len(base2)) + base2
-		// building knapsack with items
-		currentKnapsack := Knapsack{CharacteristicVector: vector}
+		// build knapsack with items
+		currentKnapsack := Knapsack{}
 		for i, v := range vector {
 			// 49 represents 1, 48 represents 0
 			if v == 49 {
@@ -73,6 +73,7 @@ BinaryIterator:
 		// choosing max knapsack on the fly
 		if perfectKnapsack.TotalValue < currentKnapsack.TotalValue {
 			perfectKnapsack = currentKnapsack
+			perfectKnapsack.CharacteristicVector = vector
 		}
 	}
 	return
