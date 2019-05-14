@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/sidletsky/knapsack/bruteforce"
 	"reflect"
 	"testing"
 
@@ -45,7 +46,7 @@ func Test_decToBin(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := decToBin(tt.args.x, tt.args.size); !reflect.DeepEqual(got, tt.want) {
+			if got := bruteforce.DecToBin(tt.args.x, tt.args.size); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("decToBin() = %v, want %v", got, tt.want)
 			}
 		})
@@ -73,23 +74,23 @@ func Test_getPerfectKnapsack(t *testing.T) {
 	tests := []struct {
 		name                string
 		args                args
-		wantPerfectKnapsack Knapsack
+		wantPerfectKnapsack bruteforce.Knapsack
 	}{
 		{
 			name:                "case 1",
 			args:                args{itemsCase1, 40},
-			wantPerfectKnapsack: Knapsack{TotalWeight: 35, TotalValue: 45, CharacteristicVector: []byte{0, 49, 48, 49}},
+			wantPerfectKnapsack: bruteforce.Knapsack{TotalWeight: 35, TotalValue: 45, CharacteristicVector: []byte{0, 49, 48, 49}},
 		},
 		{
 			name:                "case 2",
 			args:                args{itemsCase2, 40},
-			wantPerfectKnapsack: Knapsack{TotalWeight: 35, TotalValue: 50, CharacteristicVector: []byte{49, 48, 49, 49}},
+			wantPerfectKnapsack: bruteforce.Knapsack{TotalWeight: 35, TotalValue: 50, CharacteristicVector: []byte{49, 48, 49, 49}},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotPerfectKnapsack := getPerfectKnapsack(tt.args.items, tt.args.knapsackCapacity); !reflect.DeepEqual(gotPerfectKnapsack, tt.wantPerfectKnapsack) {
-				t.Errorf("getPerfectKnapsack() = %v, want %v", gotPerfectKnapsack, tt.wantPerfectKnapsack)
+			if gotPerfectKnapsack := bruteforce.GetPerfectKnapsack(tt.args.items, tt.args.knapsackCapacity); !reflect.DeepEqual(gotPerfectKnapsack, tt.wantPerfectKnapsack) {
+				t.Errorf("GetPerfectKnapsack() = %v, want %v", gotPerfectKnapsack, tt.wantPerfectKnapsack)
 			}
 		})
 	}

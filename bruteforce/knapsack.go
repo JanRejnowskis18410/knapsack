@@ -1,4 +1,4 @@
-package main
+package bruteforce
 
 import (
 	"fmt"
@@ -22,18 +22,18 @@ func (knapsack *Knapsack) String() string {
 		knapsack.TotalWeight)
 }
 
-// getPerfectKnapsack finds a perfect knapsack from all possible solutions using brute force method.
+// GetPerfectKnapsack finds a perfect knapsack from all possible solutions using brute force method.
 // Perfect knapsack is the one that has the biggest total value of items and has weight
 // lower or equal to the capacity of a required knapsack.
-// getPerfectKnapsack finds perfect knapsack on the fly, without producing any helper matrices
-func getPerfectKnapsack(items []repository.Item, knapsackCapacity int) (perfectKnapsack Knapsack) {
+// GetPerfectKnapsack finds perfect knapsack on the fly, without producing any helper matrices
+func GetPerfectKnapsack(items []repository.Item, knapsackCapacity int) (perfectKnapsack Knapsack) {
 	itemsSize := len(items)
 	totalKnapsacks := int(math.Pow(2, float64(itemsSize)))
 	perfectKnapsack = Knapsack{}
 BinaryIterator:
 	for i := 0; i < totalKnapsacks; i++ {
 		// create characteristicVector representation
-		characteristicVector := decToBin(i, itemsSize)
+		characteristicVector := DecToBin(i, itemsSize)
 		// build knapsack with items
 		currentKnapsack := Knapsack{}
 		for i, v := range characteristicVector {

@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/sidletsky/knapsack/bruteforce"
 	"github.com/sidletsky/knapsack/repository"
 	"time"
 )
@@ -15,7 +16,7 @@ func main() {
 		panic(err)
 	}
 	startTime := time.Now()
-	perfectKnapsack := getPerfectKnapsack(repo.Items, repo.Capacity)
+	perfectKnapsack := bruteforce.GetPerfectKnapsack(repo.Items, repo.Capacity)
 	duration := time.Since(startTime)
 	fmt.Println("Time took:", duration)
 	fmt.Println("Knapsack's capacity:", repo.Capacity)
