@@ -5,20 +5,18 @@ import (
 	"fmt"
 	"github.com/sidletsky/knapsack/repository"
 	"math"
-	"strconv"
-	"strings"
 	"time"
 )
 
 type Knapsack struct {
 	TotalValue           int
 	TotalWeight          int
-	CharacteristicVector string
+	CharacteristicVector []byte
 }
 
 func (knapsack *Knapsack) String() string {
 	return fmt.Sprintf(
-		"Characteristic vector: %s \n"+
+		"Characteristic vector: %d \n"+
 			"Total value: %d \n"+
 			"Total weight: %d",
 		knapsack.CharacteristicVector,
@@ -58,12 +56,11 @@ func getPerfectKnapsack(items []repository.Item, knapsackCapacity int) (perfectK
 	perfectKnapsack = Knapsack{}
 BinaryIterator:
 	for i := 0; i < totalKnapsacks; i++ {
-		// create vector representation
-		base2 := strconv.FormatInt(int64(i), 2)
-		vector := strings.Repeat("0", itemsSize-len(base2)) + base2
+		// create characteristicVector representation
+		characteristicVector := decToBin(i, itemsSize)
 		// build knapsack with items
 		currentKnapsack := Knapsack{}
-		for i, v := range vector {
+		for i, v := range characteristicVector {
 			// 49 represents 1, 48 represents 0
 			if v == 49 {
 				currentKnapsack.TotalValue += items[i].Value
@@ -76,8 +73,34 @@ BinaryIterator:
 		// choosing max knapsack on the fly
 		if perfectKnapsack.TotalValue < currentKnapsack.TotalValue {
 			perfectKnapsack = currentKnapsack
-			perfectKnapsack.CharacteristicVector = vector
+			perfectKnapsack.CharacteristicVector = characteristicVector
 		}
 	}
 	return
+}
+
+const digits = "01"
+
+func decToBin(x, size int) []byte {
+	var a [64 + 1]byte
+	i := len(a)
+	for x >= 2 {
+		i--
+		a[i] = digits[x&1]
+		x >>= 1
+	}
+	// x < 2
+	i--
+	a[i] = digits[x]
+	return a[len(a)-size:]
+
+	////base2 := strconv.FormatInt(int64(i), 2)
+	////vector := strings.Repeat("0", itemsSize-len(base2)) + base2
+	//binaryRepresentation := make([]int, size)
+	//temp := x
+	//for j := size - 1; j >= 0; j-- {
+	//	binaryRepresentation[j] = int(math.Mod(float64(temp), 2))
+	//	temp = int(math.Floor(float64(temp / 2)))
+	//}
+	//return binaryRepresentation
 }
