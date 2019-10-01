@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/sidletsky/knapsack/repository"
+	"knapsack/repository"
 )
 
 func TestGetPerfectKnapsack(t *testing.T) {

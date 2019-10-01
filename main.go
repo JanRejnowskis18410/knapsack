@@ -3,9 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/sidletsky/knapsack/bruteforce"
-	"github.com/sidletsky/knapsack/repository"
 	"time"
+
+	"knapsack/bruteforce"
+	"knapsack/repository"
 )
 
 func main() {

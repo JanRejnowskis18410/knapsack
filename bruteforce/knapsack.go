@@ -2,8 +2,9 @@ package bruteforce
 
 import (
 	"fmt"
-	"github.com/sidletsky/knapsack/repository"
 	"math"
+
+	"knapsack/repository"
 )
 
 type Knapsack struct {
