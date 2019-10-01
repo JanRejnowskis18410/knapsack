@@ -17,7 +17,7 @@ func main() {
 		panic(err)
 	}
 	startTime := time.Now()
-	perfectKnapsack := bruteforce.GetPerfectKnapsack(repo.Items, repo.Capacity)
+	perfectKnapsack := bruteforce.GetKnapsack(repo.Items, repo.Capacity)
 	duration := time.Since(startTime)
 	fmt.Println("Time took:", duration)
 	fmt.Println("Knapsack's capacity:", repo.Capacity)

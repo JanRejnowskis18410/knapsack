@@ -23,11 +23,11 @@ func (knapsack *Knapsack) String() string {
 		knapsack.TotalWeight)
 }
 
-// GetPerfectKnapsack finds a perfect knapsack from all possible solutions using brute force method.
+// GetKnapsack finds a perfect knapsack from all possible solutions using brute force method.
 // Perfect knapsack is the one that has the biggest total value of items and has weight
 // lower or equal to the capacity of a required knapsack.
-// GetPerfectKnapsack finds perfect knapsack on the fly, without producing any helper matrices
-func GetPerfectKnapsack(items []repository.Item, knapsackCapacity int) (perfectKnapsack Knapsack) {
+// GetKnapsack finds perfect knapsack on the fly, without producing any helper matrices
+func GetKnapsack(items []repository.Item, knapsackCapacity int) (perfectKnapsack Knapsack) {
 	itemsSize := len(items)
 	totalKnapsacks := int(math.Pow(2, float64(itemsSize)))
 	perfectKnapsack = Knapsack{}
